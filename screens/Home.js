@@ -90,7 +90,7 @@ export default Home = ({ navigation }) => {
           <TouchableOpacity
             style={[
               styles.keyBoardBtn,
-              windowHeight > 800 ? { marginTop: 40 } : { marginTop: 10 },
+              windowHeight > 900 ? { marginTop: 40 } : { marginTop: 0 },
             ]}
             onPress={() => setShowKeyboard(!showKeyboard)}
           >
