@@ -4,7 +4,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { BottomNavigation, useTheme } from "react-native-paper";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
-import SongScreen, { HeaderBar } from "../screens/SongScreen";
+import SongScreen from "../screens/SongScreen";
 import SettingScreen from "../screens/SettingScreen";
 
 import { HomeStackScreen } from "./HomeStackScreen";
@@ -17,10 +17,6 @@ const renderScene = {
   Song: SongScreen,
   Settings: SettingScreen,
 };
-
-const header = {
-  Song: HeaderBar
-}
 
 const tabBarIconGen = (
   focusedIcon = "",
@@ -125,8 +121,6 @@ const BottomNavigationComponent = () => {
             name={route.name}
             component={renderScene[route.name]}
             options={{
-              header: header[route.name],
-              headerShown: header[route.name] ? true : false,
               tabBarLabel: route.title,
               tabBarIcon: ({ focused, color, size }) =>
                 tabBarIconGen(

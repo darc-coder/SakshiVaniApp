@@ -5,6 +5,7 @@ import {
     Text,
     TouchableOpacity,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 import * as SplashScreen from "expo-splash-screen";
 import { useFonts } from "expo-font";
@@ -59,83 +60,51 @@ const SongScreen = ({ navigation, route, style }) => {
         return null;
     } else {
         return (
-            <Animatable.View
-                ref={animateRef}
-                needsOffscreenAlphaCompositing={true}
-                useNativeDriver={true}
-                style={[styles.container, { backgroundColor: '#222' }]}
-                // animation="slideInRight"
-                transition={"backgroundColor"}
-                easing="ease-out"
-                duration={250}
-            >
+            <SafeAreaView style={{ flex: 1 }}>
+                <Animatable.View
+                    ref={animateRef}
+                    needsOffscreenAlphaCompositing={true}
+                    useNativeDriver={true}
+                    style={[styles.container, { backgroundColor: '#222' }]}
+                    animation="slideInRight"
+                    transition={"backgroundColor"}
+                    easing="ease-out"
+                    duration={250}
+                >
 
+                    <View style={[styles.header, { backgroundColor: Theme.colors.tertiary }]}>
+                        <TouchableOpacity>
+                            <FontAwesome name="angle-left" size={24} color={'#fff'} />
+                        </TouchableOpacity>
+                        <Text style={styles.title} numberOfLines={1} adjustsFontSizeToFit={true}>
+                            {key}  {songName}
+                        </Text>
+                        <TouchableOpacity>
+                            <FontAwesome name="angle-right" size={24} color={'#fff'} />
+                        </TouchableOpacity>
+                    </View>
 
-                <GestureView songKey={key} fontSize={fontSize} setFontSize={setFontSize} />
+                    <GestureView songKey={key} fontSize={fontSize} setFontSize={setFontSize} />
 
-                <View>
-                    <TouchableOpacity
-                        style={[styles.zoomBtn, { bottom: 120, backgroundColor: inversePrimary }]}
-                        onPress={() => setFontSize(fontSize + 2)}
-                    >
-                        <Text style={{ color: "white", fontSize: 25 }}>+</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                        style={[styles.zoomBtn, { backgroundColor: inversePrimary }]}
-                        onPress={() => setFontSize(fontSize - 2)}
-                    >
-                        <Text style={{ color: "white", fontSize: 30 }}>-</Text>
-                    </TouchableOpacity>
-                </View>
-            </Animatable.View>
+                    <View>
+                        <TouchableOpacity
+                            style={[styles.zoomBtn, { bottom: 120, backgroundColor: inversePrimary }]}
+                            onPress={() => setFontSize(fontSize + 2)}
+                        >
+                            <Text style={{ color: "white", fontSize: 25 }}>+</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            style={[styles.zoomBtn, { backgroundColor: inversePrimary }]}
+                            onPress={() => setFontSize(fontSize - 2)}
+                        >
+                            <Text style={{ color: "white", fontSize: 30 }}>-</Text>
+                        </TouchableOpacity>
+                    </View>
+                </Animatable.View>
+            </SafeAreaView>
         );
     }
 };
-
-export const HeaderBar = ({ route }) => {
-    const Theme = useTheme();
-    const [songInfo, setSongInfo] = useState({
-        songName: "gYysyw;kg /u Lrqfr t;",
-        key: "1",
-    });
-
-    let [fontsLoaded] = useFonts({
-        Walkman: require("../assets/WalkmanChanakya.ttf"),
-    });
-
-
-    const _onLayoutRootView = useCallback(async () => {
-        if (fontsLoaded) {
-            await SplashScreen.hideAsync();
-        }
-    }, [fontsLoaded]);
-
-
-    try {
-        if (route) {
-            var { songName, key } = route.params.song;
-        }
-    } catch (error) {
-        var { songName, key } = songInfo;
-    }
-
-    if (!fontsLoaded)
-        return <Text>Loading ...</Text>;
-    else
-        return (
-            <View style={[styles.header, { backgroundColor: Theme.colors.tertiary }]}>
-                <TouchableOpacity>
-                    <FontAwesome name="angle-left" size={24} color={'#fff'} />
-                </TouchableOpacity>
-                <Text style={styles.title} numberOfLines={1} adjustsFontSizeToFit={true}>
-                    {key}  {songName}
-                </Text>
-                <TouchableOpacity>
-                    <FontAwesome name="angle-right" size={24} color={'#fff'} />
-                </TouchableOpacity>
-            </View>
-        )
-}
 
 
 export default SongScreen;
