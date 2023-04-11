@@ -67,7 +67,6 @@ const SongScreen = ({ navigation, route, style }) => {
                     needsOffscreenAlphaCompositing={true}
                     useNativeDriver={true}
                     style={[styles.container, { backgroundColor: '#222' }]}
-                    animation="slideInRight"
                     transition={"backgroundColor"}
                     easing="ease-out"
                     duration={250}
