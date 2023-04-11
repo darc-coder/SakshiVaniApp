@@ -1,6 +1,5 @@
-import React, { useState, useCallback, useContext } from "react";
+import React, { useState, useEffect, useCallback, useContext } from "react";
 import {
-    Dimensions,
     StyleSheet,
     View,
     Text,
@@ -45,12 +44,6 @@ const SongScreen = ({ navigation, route, style }) => {
         Walkman: require("../assets/WalkmanChanakya.ttf"),
     });
 
-    const _onLayoutRootView = useCallback(async () => {
-        if (fontsLoaded) {
-            await SplashScreen.hideAsync();
-        }
-    }, [fontsLoaded]);
-
     React.useEffect(() => {
         const unsubscribe = navigation.addListener("focus", () => {
 
@@ -76,17 +69,7 @@ const SongScreen = ({ navigation, route, style }) => {
                 easing="ease-out"
                 duration={250}
             >
-                <View style={[styles.header, { backgroundColor: Theme.colors.tertiary }]}>
-                    <TouchableOpacity>
-                        <FontAwesome name="angle-left" size={24} color={'#fff'} />
-                    </TouchableOpacity>
-                    <Text style={styles.title} numberOfLines={1} adjustsFontSizeToFit={true}>
-                        {key}  {songName}
-                    </Text>
-                    <TouchableOpacity>
-                        <FontAwesome name="angle-right" size={24} color={'#fff'} />
-                    </TouchableOpacity>
-                </View>
+
 
                 <GestureView songKey={key} fontSize={fontSize} setFontSize={setFontSize} />
 
@@ -108,6 +91,51 @@ const SongScreen = ({ navigation, route, style }) => {
         );
     }
 };
+
+export const HeaderBar = ({ route }) => {
+    const Theme = useTheme();
+    const [songInfo, setSongInfo] = useState({
+        songName: "gYysyw;kg /u Lrqfr t;",
+        key: "1",
+    });
+
+    let [fontsLoaded] = useFonts({
+        Walkman: require("../assets/WalkmanChanakya.ttf"),
+    });
+
+
+    const _onLayoutRootView = useCallback(async () => {
+        if (fontsLoaded) {
+            await SplashScreen.hideAsync();
+        }
+    }, [fontsLoaded]);
+
+
+    try {
+        if (route) {
+            var { songName, key } = route.params.song;
+        }
+    } catch (error) {
+        var { songName, key } = songInfo;
+    }
+
+    if (!fontsLoaded)
+        return <Text>Loading ...</Text>;
+    else
+        return (
+            <View style={[styles.header, { backgroundColor: Theme.colors.tertiary }]}>
+                <TouchableOpacity>
+                    <FontAwesome name="angle-left" size={24} color={'#fff'} />
+                </TouchableOpacity>
+                <Text style={styles.title} numberOfLines={1} adjustsFontSizeToFit={true}>
+                    {key}  {songName}
+                </Text>
+                <TouchableOpacity>
+                    <FontAwesome name="angle-right" size={24} color={'#fff'} />
+                </TouchableOpacity>
+            </View>
+        )
+}
 
 
 export default SongScreen;
