@@ -124,7 +124,6 @@ const BottomNavigationComponent = () => {
             key={route.key}
             name={route.name}
             component={renderScene[route.name]}
-            // screenOptions={({ navigation, route }) => ({ header: props => (<HeaderBar navigation={navigation} {...props} />) })}
             options={{
               header: header[route.name],
               headerShown: header[route.name] ? true : false,
