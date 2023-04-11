@@ -4,6 +4,7 @@ import {
     View,
     Text,
     TouchableOpacity,
+    Vibration
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -73,13 +74,13 @@ const SongScreen = ({ navigation, route, style }) => {
                 >
 
                     <View style={[styles.header, { backgroundColor: Theme.colors.tertiary }]}>
-                        <TouchableOpacity>
+                        <TouchableOpacity onPress={() => Vibration.vibrate(100)}>
                             <FontAwesome name="angle-left" size={24} color={'#fff'} />
                         </TouchableOpacity>
                         <Text style={styles.title} numberOfLines={1} adjustsFontSizeToFit={true}>
                             {key}  {songName}
                         </Text>
-                        <TouchableOpacity>
+                        <TouchableOpacity onPress={() => Vibration.vibrate(100)}>
                             <FontAwesome name="angle-right" size={24} color={'#fff'} />
                         </TouchableOpacity>
                     </View>
