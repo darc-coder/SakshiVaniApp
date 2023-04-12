@@ -46,6 +46,12 @@ const SongScreen = ({ navigation, route, style }) => {
         Walkman: require("../assets/WalkmanChanakya.ttf"),
     });
 
+    (async () => {
+        if (fontsLoaded) {
+            await SplashScreen.hideAsync();
+        }
+    })();
+
     React.useEffect(() => {
         const unsubscribe = navigation.addListener("focus", () => {
 
