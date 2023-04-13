@@ -62,8 +62,9 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'flex-start',
         backgroundColor: '#e9eaee',
-        height: '100%',
-        margin: 0
+        // height: '100%',
+        margin: 0,
+        paddingBottom: 5,
     },
     singleKey: {
         width: 50,

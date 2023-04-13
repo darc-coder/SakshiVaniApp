@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useContext } from "react";
+import React, { useState, useCallback, useContext } from "react";
 import {
     StyleSheet,
     View,
@@ -46,11 +46,13 @@ const SongScreen = ({ navigation, route, style }) => {
         Walkman: require("../assets/WalkmanChanakya.ttf"),
     });
 
-    (async () => {
+    const onLayoutRootView = useCallback(async () => {
         if (fontsLoaded) {
             await SplashScreen.hideAsync();
         }
-    })();
+    }, [fontsLoaded]);
+
+    onLayoutRootView();
 
     React.useEffect(() => {
         const unsubscribe = navigation.addListener("focus", () => {

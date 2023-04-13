@@ -5,8 +5,8 @@
  */
 
 import "react-native-gesture-handler";
-import React, { ReactNode, useContext } from "react";
-import { StatusBar, Platform } from "react-native";
+import React, { useContext } from "react";
+import { StatusBar } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { Provider as PaperProvider, configureFonts } from "react-native-paper";
 import Theme from "./theme";

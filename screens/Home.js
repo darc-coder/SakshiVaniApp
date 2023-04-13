@@ -1,28 +1,20 @@
-import React, { useState, useContext, useCallback } from "react";
-import {
-  Dimensions,
-  SafeAreaView,
-  StyleSheet,
-  View,
-  Text,
-  TouchableOpacity,
-  ScrollView,
-} from "react-native";
-import { MaterialIcons } from "@expo/vector-icons";
-import * as SplashScreen from "expo-splash-screen";
-import { useFonts } from "expo-font";
-import * as ScreenOrientation from "expo-screen-orientation";
-import { useTheme, Button } from "react-native-paper";
-import HindiKeyBoard from "../components/HindiKeyBoard";
-import SearchBarComponent from "../components/searchBar";
+import React, { useState, useCallback } from 'react';
+import { Dimensions, StyleSheet, View, Text, TouchableOpacity } from 'react-native';
+import { MaterialIcons } from '@expo/vector-icons';
+import * as SplashScreen from 'expo-splash-screen';
+import { useFonts } from 'expo-font';
+import * as ScreenOrientation from 'expo-screen-orientation';
+import { useTheme, Button } from 'react-native-paper';
+import HindiKeyBoard from '../components/HindiKeyBoard';
+import SearchBarComponent from '../components/searchBar';
 
-const windowHeight = Dimensions.get("window").height;
+const windowHeight = Dimensions.get('window').height;
 
 // Keep the splash screen visible while we fetch resources
 SplashScreen.preventAutoHideAsync();
 
 export default Home = ({ navigation }) => {
-  const [searchKey, setSearchKey] = useState("");
+  const [searchKey, setSearchKey] = useState('');
   const [showKeyboard, setShowKeyboard] = useState(true);
   const [listenerExist, setListenerExist] = useState(false);
   const Theme = useTheme();
@@ -37,43 +29,37 @@ export default Home = ({ navigation }) => {
   // ScreenOrientation.removeOrientationChangeListeners()
 
   let [fontsLoaded] = useFonts({
-    Walkman: require("../assets/WalkmanChanakya.ttf"),
-    Poppins: require("../assets/Poppins.ttf"),
+    Walkman: require('../assets/WalkmanChanakya.ttf'),
+    Poppins: require('../assets/Poppins.ttf'),
   });
 
-  (async () => {
+  const onLayoutRootView = useCallback(async () => {
     if (fontsLoaded) {
       await SplashScreen.hideAsync();
     }
-  })();
+  }, [fontsLoaded]);
+
+  onLayoutRootView();
 
   if (!fontsLoaded) {
     return null;
   } else {
     return (
-      <View
-        style={{ height: "100%", backgroundColor: Theme.colors.background }}
-      >
+      <View style={[styles.container, { height: '100%', backgroundColor: Theme.colors.background }]}>
         <View
           style={[
-            styles.container,
+            { paddingHorizontal: 30 },
             windowHeight > 800 ? { paddingTop: 30 } : { paddingTop: 0 },
             { backgroundColor: Theme.colors.background },
-            { flex: 0.4 },
           ]}
         >
-          <SearchBarComponent
-            searchKey={searchKey}
-            setSearchKey={setSearchKey}
-          />
+          <SearchBarComponent searchKey={searchKey} setSearchKey={setSearchKey} />
 
           <Button
             style={styles.searchBtn}
             icon="music-note-outline"
             mode="contained-tonal"
-            onPress={() =>
-              navigation.navigate("SongSearch", { searchKey: searchKey })
-            }
+            onPress={() => navigation.navigate('SongSearch', { searchKey: searchKey })}
           >
             SEARCH SONG
           </Button>
@@ -82,16 +68,13 @@ export default Home = ({ navigation }) => {
             style={styles.searchBtn}
             icon="book-music"
             mode="contained"
-            onPress={() => navigation.navigate("SongCategory")}
+            onPress={() => navigation.navigate('SongCategory')}
           >
             SEARCH BY CATEGORY
           </Button>
 
           <TouchableOpacity
-            style={[
-              styles.keyBoardBtn,
-              windowHeight > 900 ? { marginTop: 40 } : { marginTop: 0 },
-            ]}
+            style={[styles.keyBoardBtn, windowHeight > 780 ? { marginTop: 30 } : { marginTop: 0 }]}
             onPress={() => setShowKeyboard(!showKeyboard)}
           >
             <MaterialIcons name="keyboard" size={40} color="white" />
@@ -103,9 +86,7 @@ export default Home = ({ navigation }) => {
             { backgroundColor: Theme.colors.outlineVariant },
           ]}
         >
-          <Text style={showKeyboard ? { marginLeft: 10 } : { height: 0 }}>
-            {" "}
-          </Text>
+          <View style={showKeyboard ? { height: 7 } : { height: 0 }}></View>
           {/* Keyboard goes here */}
           <HindiKeyBoard setSearchKey={setSearchKey} searchKey={searchKey} />
         </View>
@@ -117,45 +98,47 @@ export default Home = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: "column",
-    justifyContent: "space-between",
-    paddingTop: 30,
-    paddingHorizontal: 30,
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    // paddingTop: 10,
   },
   searchBtn: {
     marginTop: 6,
-    alignSelf: "center",
+    alignSelf: 'center',
     borderRadius: 48,
-    width: 200,
+    width: 210,
     paddingVertical: 2,
     elevation: 2,
   },
   keyBoardBtn: {
-    alignSelf: "flex-end",
-    marginTop: 50,
-    marginBottom: 10,
+    alignSelf: 'flex-end',
+    marginTop: 10,
+    marginBottom: 5,
     width: 50,
     height: 50,
     padding: 4,
-    backgroundColor: "#777",
+    backgroundColor: '#777',
     borderRadius: 50,
     elevation: 8,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   keyBoardContainer: {
-    position: "relative",
+    position: 'relative',
     bottom: 0,
     left: 0,
-    flex: 0.6,
-    justifyContent: "space-evenly",
+    justifySelf: 'flex-end',
+    flexDirection: 'column',
+    // flex: 0.65,
+    justifyContent: 'space-evenly',
     marginHorizontal: -27,
     padding: -50,
-    backgroundColor: "#eee",
+    backgroundColor: '#eee',
+    borderRadius: 40,
   },
   keyBoardHide: {
     flex: 0,
     height: 0,
-    overflow: "hidden",
+    overflow: 'hidden',
   },
 });
