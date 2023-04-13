@@ -8,6 +8,8 @@ import {
     TouchableOpacity,
     StyleSheet,
 } from "react-native";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useTheme } from "react-native-paper";
 
 const windowHeight = Dimensions.get("window").height;
 const windowWidth = Dimensions.get("window").width;
@@ -16,54 +18,52 @@ const imgHeight = parseInt(windowHeight * 0.2);
 const imgWidth = parseInt(windowWidth);
 
 const SettingsTopImage = () => {
+
+    const uri = `https://source.unsplash.com/random/${100}*${100}/?nature,mountain`;
+
     const [posXY, setPosXY] = useState({ X: 0, Y: 0 });
+    const [dpImgSrc, setDpImgSrc] = useState({uri: uri});
+
+    const Theme = useTheme();
 
     useEffect(() => {
-        (async () => {
-            const { status } =
-                await ImagePicker.requestMediaLibraryPermissionsAsync();
-            if (status !== "granted")
-                alert("Sorry, we need camera roll permissions to make this work!");
-        });
+        AsyncStorage.getItem('profileImage', (result) => result && setDpImgSrc(old => {uri: result}))
     }, []);
 
     const pickImage = async () => {
-        // if (!ImagePicker.PermissionStatus.GRANTED) {
-        //     let { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-        //     if (status !== "granted")
-        //         alert("Sorry, we need camera roll permissions to make this work!");
-        // }
-
-        let result = await ImagePicker.launchImageLibraryAsync({
-            mediaTypes: ImagePicker.MediaTypeOptions.All,
-            allowsEditing: true,
-            aspect: [4, 4],
-            quality: 1,
-            base64: true,
-        });
+        let result = { canceled: true };
+        let { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+        if (status !== "granted")
+            alert("Sorry, we need camera roll permissions to make this work!");
+        else {
+            result = await ImagePicker.launchImageLibraryAsync({
+                mediaTypes: ImagePicker.MediaTypeOptions.All,
+                allowsEditing: true,
+                aspect: [4, 4],
+                quality: 1,
+                base64: true,
+            });
+        }
 
         if (!result.canceled) {
-            localStorage.setItem(
-                "profileImage",
-                "data:image/jpeg;base64," + result.base64
-            );
-            // setContext({ ...context, profileimage: 'data:image/jpeg;base64,' + result.base64 })
+                try {
+                    await AsyncStorage.setItem('profileImage', "data:image/jpeg;base64," + result.base64)
+                } catch (e) {
+                    console.error(e);
+                }
         }
     };
 
     const image = {
         uri: `https://source.unsplash.com/random/${imgHeight}*${imgWidth}/?nature,mountain`,
     };
-    const profileImage = {
-        uri: `https://source.unsplash.com/random/${100}*${100}/?nature,mountain`,
-    };
 
     return (
         <>
             <ImageBackground source={image} style={styles.bgImg}>
                 <Image
-                    source={profileImage}
-                    style={styles.profileImg}
+                    source={dpImgSrc}
+                    style={[styles.profileImg, { borderColor: Theme.colors.backdrop }]}
                     onLayout={(event) => {
                         const layout = event.nativeEvent.layout;
                         const posXY = {
@@ -76,10 +76,12 @@ const SettingsTopImage = () => {
             </ImageBackground>
 
             <TouchableOpacity
-                style={[styles.imgUpBtn, { top: posXY.X + 80, left: posXY.Y + 70 }]}
+                style={[styles.imgUpBtn, {
+                     top: posXY.X + 80, left: posXY.Y + 70,
+                     backgroundColor: Theme.colors.outline }]}
                 onPress={() => pickImage()}
             >
-                <Ionicons name="ios-camera" size={20} color="white" />
+                <Ionicons name="ios-camera" size={20} color={Theme.colors.background} />
             </TouchableOpacity>
         </>
     );
@@ -110,8 +112,6 @@ const styles = StyleSheet.create({
         alignItems: "center",
         padding: 3,
         borderRadius: 100,
-        borderWidth: 1,
-        borderColor: "white",
         backgroundColor: "#319",
     },
 });

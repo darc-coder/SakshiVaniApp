@@ -29,7 +29,7 @@ const SettingScreen = ({ navigation, route }) => {
     >
       <SettingsTopImage />
       <View style={styles.settings}>
-        <Text style={styles.borderTop} />
+        <Text style={[styles.borderTop, { borderColor: Theme.colors.outline }]} />
         <View style={styles.textToggleWrap}>
           <Text style={[styles.texts, { color: Theme.colors.onBackground }]}>
             Dark Mode:
