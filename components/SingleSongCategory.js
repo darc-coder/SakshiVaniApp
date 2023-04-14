@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { StyleSheet, View, FlatList } from 'react-native';
 import { useFonts } from 'expo-font';
-import { ListItem } from "react-native-elements";
+import { ListItem } from "@rneui/themed";
 import { useTheme, List } from 'react-native-paper';
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import SongItem from "./SongItem";

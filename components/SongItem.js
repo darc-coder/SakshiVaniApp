@@ -2,7 +2,7 @@ import React from 'react'
 import { StyleSheet, Text } from 'react-native';
 import { useFonts } from 'expo-font';
 import { useTheme } from 'react-native-paper';
-import { ListItem } from 'react-native-elements';
+import { ListItem } from '@rneui/themed';
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 

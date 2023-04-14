@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, memo } from "react";
 import { CommonActions, NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { BottomNavigation, useTheme } from "react-native-paper";
@@ -13,9 +13,9 @@ import { IndexContext } from "../context";
 const Tab = createBottomTabNavigator();
 
 const renderScene = {
-    Home: HomeStackScreen,
-    Song: SongScreen,
-    Settings: SettingScreen,
+    Home: memo(HomeStackScreen),
+    Song: memo(SongScreen),
+    Settings: memo(SettingScreen),
 };
 
 const tabBarIconGen = (
@@ -36,7 +36,7 @@ const BottomNavigationComponent = () => {
     const { index, setIndex } = useContext(IndexContext);
     const Theme = useTheme();
 
-    const [routes] = React.useState([
+    const [routes] = useState([
         {
             key: "Home",
             name: "Home",

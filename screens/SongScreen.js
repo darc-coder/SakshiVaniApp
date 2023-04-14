@@ -56,8 +56,8 @@ const SongScreen = ({ navigation, route, style }) => {
 
   React.useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
-      animateRef.current && index < 1 && animateRef.current.slideInLeft();
-      animateRef.current && index > 1 && animateRef.current.slideInRight();
+      animateRef.current && index < 1 && animateRef.current.slideInRight();
+      animateRef.current && index > 1 && animateRef.current.slideInLeft();
     });
 
     return unsubscribe;
