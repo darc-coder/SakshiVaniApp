@@ -7,6 +7,7 @@ import {
     Image,
     TouchableOpacity,
     StyleSheet,
+    ToastAndroid
 } from "react-native";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useTheme } from "react-native-paper";
@@ -27,7 +28,10 @@ const SettingsTopImage = () => {
     const Theme = useTheme();
 
     useEffect(() => {
-        AsyncStorage.getItem('profileImage', (result) => result && setDpImgSrc(old => {uri: result}))
+      (async () => {
+        const result = await AsyncStorage.getItem('profileImage');
+        result && setDpImgSrc({ uri: result });
+      })();
     }, []);
 
     const pickImage = async () => {
@@ -47,7 +51,12 @@ const SettingsTopImage = () => {
 
         if (!result.canceled) {
                 try {
-                    await AsyncStorage.setItem('profileImage', "data:image/jpeg;base64," + result.base64)
+                    let base64 = result.assets[0]?.base64;
+                    if (base64) {
+                        base64 = "data:image/jpeg;base64," + base64;
+                        await AsyncStorage.setItem('profileImage', base64);
+                        setDpImgSrc({ uri: base64 });
+                    }
                 } catch (e) {
                     console.error(e);
                 }
@@ -59,31 +68,44 @@ const SettingsTopImage = () => {
     };
 
     return (
-        <>
-            <ImageBackground source={image} style={styles.bgImg}>
-                <Image
-                    source={dpImgSrc}
-                    style={[styles.profileImg, { borderColor: Theme.colors.backdrop }]}
-                    onLayout={(event) => {
-                        const layout = event.nativeEvent.layout;
-                        const posXY = {
-                            X: layout.x,
-                            Y: layout.y,
-                        };
-                        setPosXY(posXY);
-                    }}
-                ></Image>
-            </ImageBackground>
+      <>
+        <ImageBackground source={image} style={styles.bgImg}>
+          <TouchableOpacity
+            onLongPress={() => {
+              setDpImgSrc({ uri: uri });
+              ToastAndroid.show('Profile Pic Cleared!', ToastAndroid.SHORT);
+            }}
+          >
+            <Image
+              source={dpImgSrc}
+              style={[styles.profileImg, { borderColor: Theme.colors.backdrop }]}
+              onLayout={event => {
+                const layout = event.nativeEvent.layout;
+                const posXY = {
+                  X: layout.x,
+                  Y: layout.y,
+                };
+                setPosXY(posXY);
+              }}
+              defaultSource={{ uri: '../assets/icon.png' }}
+            />
+          </TouchableOpacity>
+        </ImageBackground>
 
-            <TouchableOpacity
-                style={[styles.imgUpBtn, {
-                     top: posXY.X + 80, left: posXY.Y + 70,
-                     backgroundColor: Theme.colors.outline }]}
-                onPress={() => pickImage()}
-            >
-                <Ionicons name="ios-camera" size={20} color={Theme.colors.background} />
-            </TouchableOpacity>
-        </>
+        <TouchableOpacity
+          style={[
+            styles.imgUpBtn,
+            {
+              top: posXY.X + 80,
+              left: posXY.Y + 170,
+              backgroundColor: Theme.colors.outline,
+            },
+          ]}
+          onPress={() => pickImage()}
+        >
+          <Ionicons name="ios-camera" size={20} color={Theme.colors.background} />
+        </TouchableOpacity>
+      </>
     );
 };
 

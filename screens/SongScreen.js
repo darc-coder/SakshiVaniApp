@@ -80,17 +80,7 @@ const SongScreen = ({ navigation, route, style }) => {
                     duration={250}
                 >
 
-                    <View style={[styles.header, { backgroundColor: Theme.colors.tertiary }]}>
-                        <TouchableOpacity onPress={() => Vibration.vibrate(100)}>
-                            <FontAwesome name="angle-left" size={24} color={'#fff'} />
-                        </TouchableOpacity>
-                        <Text style={styles.title} numberOfLines={1} adjustsFontSizeToFit={true}>
-                            {key}  {songName}
-                        </Text>
-                        <TouchableOpacity onPress={() => Vibration.vibrate(100)}>
-                            <FontAwesome name="angle-right" size={24} color={'#fff'} />
-                        </TouchableOpacity>
-                    </View>
+                    <TopBar songKey={key} songName={songName} Theme={Theme}/>
 
                     <GestureView songKey={key} fontSize={fontSize} setFontSize={setFontSize} />
 
@@ -113,6 +103,23 @@ const SongScreen = ({ navigation, route, style }) => {
         );
     }
 };
+
+const TopBar = ({songKey, songName, Theme}) => {
+
+    return(
+        <View style={[styles.header, { backgroundColor: Theme.colors.tertiary }]}>
+            <TouchableOpacity onPress={() => Vibration.vibrate(100)}>
+                <FontAwesome name="angle-left" size={24} color={'#fff'} />
+            </TouchableOpacity>
+            <Text style={styles.title} numberOfLines={1} adjustsFontSizeToFit={true}>
+                {songKey}  {songName}
+            </Text>
+            <TouchableOpacity onPress={() => Vibration.vibrate(100)}>
+                <FontAwesome name="angle-right" size={24} color={'#fff'} />
+            </TouchableOpacity>
+        </View>
+    )
+}
 
 
 export default SongScreen;
