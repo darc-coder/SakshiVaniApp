@@ -100,7 +100,6 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     justifyContent: 'space-between',
-    // paddingTop: 10,
   },
   searchBtn: {
     marginTop: 6,

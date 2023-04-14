@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { StyleSheet, View, Text, FlatList, SafeAreaView } from 'react-native';
+import React from 'react'
+import { StyleSheet, View, FlatList, SafeAreaView } from 'react-native';
 import { useTheme } from 'react-native-paper';
 import KeyBoardBtn, { SpaceBar, BackSpace } from "./KeyBoardBtn";
 
@@ -62,13 +62,8 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'flex-start',
         backgroundColor: '#e9eaee',
-        // height: '100%',
         margin: 0,
         paddingBottom: 5,
-    },
-    singleKey: {
-        width: 50,
-        fontSize: 18
     },
     row: {
         padding: 1,

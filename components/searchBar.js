@@ -17,7 +17,7 @@ const SearchBarComponent = ({
         <SearchBar
             platform={
                 Platform.OS === "ios" || Platform.OS === "android"
-                    ? "android"
+                    ? Platform.OS
                     : "default"
             }
             ref={ref}
@@ -61,11 +61,7 @@ const styles = StyleSheet.create({
         paddingBottom: 0,
         borderBottomWidth: 0.5,
         borderBottomColor: "#cdf",
-    },
-    textInput: {
-        fontFamily: "Walkman",
-        elevation: 4,
-    },
+    }
 });
 
 export default SearchBarComponent;

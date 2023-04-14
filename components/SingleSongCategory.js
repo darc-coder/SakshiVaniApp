@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { StyleSheet, TouchableOpacity, View, Text, FlatList } from 'react-native';
+import { StyleSheet, View, FlatList } from 'react-native';
 import { useFonts } from 'expo-font';
 import { ListItem } from "react-native-elements";
 import { useTheme, List } from 'react-native-paper';
@@ -14,7 +14,7 @@ export default function SingleSongCategory({ navigation, categoryName, categoryI
 
     const Theme = useTheme();
 
-    const [expanded, setExpanded] = React.useState(false);
+    const [expanded, setExpanded] = useState(false);
 
     const IconContent = () => {
         return (

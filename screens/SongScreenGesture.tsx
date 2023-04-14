@@ -1,5 +1,5 @@
-import React, { useState, useCallback, useContext } from "react";
-import { Animated, ScrollView, Text, View, StyleSheet } from "react-native";
+import React from "react";
+import { Animated, ScrollView, Text, StyleSheet } from "react-native";
 import {
   PinchGestureHandler,
   Gesture,
