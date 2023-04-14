@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useState, useContext } from "react";
 import {
   CardStyleInterpolators,
   createStackNavigator,
@@ -14,20 +14,26 @@ import { useTheme } from "react-native-paper";
 
 const Stack = createStackNavigator();
 
-export function HomeStackScreen({ navigation = "" }) {
+export function HomeStackScreen({ navigation }) {
   const statusBarColor = useContext(HintColorContext);
   const animateRef = React.useRef(Animatable.View);
   const Theme = useTheme();
+  const [animate, setAnimate] = useState(false);
 
   React.useEffect(() => {
     const unsubscribe = navigation.addListener("focus", () => {
       // The screen is focused
-      animateRef.current && animateRef.current.slideInLeft!();
+       animateRef.current && !animate && animateRef.current.fadeIn!();
+      animateRef.current && animate && animateRef.current.slideInLeft!();
     });
 
     // Return the function to unsubscribe from the event so it gets removed on unmount
     return unsubscribe;
-  }, [navigation]);
+  }, [navigation, animate]);
+
+  React.useEffect(() => {
+    setAnimate(true);
+  }, [])
 
   return (
     <Animatable.View
