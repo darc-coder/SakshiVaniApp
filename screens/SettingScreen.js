@@ -5,6 +5,7 @@ import { Switch, TextInput, useTheme } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ThemeContext } from '../context';
 import SettingsTopImage from './SettingTopImage';
+import DonateButton from './SettingsDonate';
 
 const SettingScreen = ({ navigation, route }) => {
   const animateRef = React.useRef(null);
@@ -67,10 +68,7 @@ const SettingScreen = ({ navigation, route }) => {
           <Text
             style={[
               styles.comingSoon,
-              {
-                color: 'white',
-                backgroundColor: Theme.colors.tertiary,
-              },
+              { backgroundColor: Theme.colors.tertiary },
             ]}
           >
             Coming Soon
@@ -80,6 +78,7 @@ const SettingScreen = ({ navigation, route }) => {
             fontSize: 16,
           }}>Theme Engine ...</Text>
         </View>
+        <DonateButton />
       </View>
     </Animatable.View>
   );
@@ -135,6 +134,7 @@ const styles = StyleSheet.create({
     fontSize: 10,
     textAlign: 'center',
     borderRadius: 5,
+    color: 'white',
   },
 });
 
