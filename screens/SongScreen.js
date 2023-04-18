@@ -10,7 +10,7 @@ import GestureView from './SongScreenGesture';
 import { useTheme } from 'react-native-paper';
 import TopBar from '../components/SongTopBar';
 
-SplashScreen.preventAutoHideAsync();
+// SplashScreen.preventAutoHideAsync();
 
 const SongScreen = ({ navigation, route, style }) => {
   const { index } = useContext(IndexContext);
@@ -74,8 +74,8 @@ const SongScreen = ({ navigation, route, style }) => {
           useNativeDriver={true}
           style={[styles.container, { backgroundColor: '#222' }]}
           transition={'backgroundColor'}
-          easing="ease-out"
-          duration={250}
+          easing="ease-out-quint"
+          duration={350}
         >
           <TopBar
             songKey={songKey}

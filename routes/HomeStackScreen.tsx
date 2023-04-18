@@ -40,8 +40,8 @@ export function HomeStackScreen({ navigation }) {
       ref={animateRef}
       style={{ flex: 1 }}
       transition={"opacity"}
-      easing="ease"
-      duration={250}
+      easing="ease-out-quint"
+      duration={350}
     >
       <Stack.Navigator
         initialRouteName="HomePage"

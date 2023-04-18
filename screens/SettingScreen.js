@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { StyleSheet, View, Text } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import { Switch, TextInput, useTheme } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -15,7 +15,7 @@ const SettingScreen = ({ navigation, route }) => {
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
-      animateRef.current && animateRef.current.slideInRight();
+      animateRef.current && animateRef.current.fadeInRight();
     });
 
     return unsubscribe;
@@ -33,8 +33,8 @@ const SettingScreen = ({ navigation, route }) => {
       ref={animateRef}
       style={{ flex: 1 }}
       animation="slideInRight"
-      easing="ease"
-      duration={250}
+      easing="ease-out-quint"
+      duration={350}
     >
       <SettingsTopImage />
       <View style={styles.settings}>
@@ -48,7 +48,7 @@ const SettingScreen = ({ navigation, route }) => {
 
         <TextInput
           mode="flat"
-          label={name.length > 2 ? 'Hi,' : 'My Name is'}
+          label={name.length > 2 ? 'Hi,' : 'My Name is:'}
           value={name}
           onChangeText={text => setName(text)}
           onBlur={async () => await AsyncStorage.setItem('profileName', name)}
@@ -57,9 +57,9 @@ const SettingScreen = ({ navigation, route }) => {
           underlineStyle={{ backgroundColor: 'transparent' }}
           underlineColor="transparent"
         />
-        <View
+        <TouchableOpacity
           style={[
-            styles.comingSoonBox,
+            styles.ThemeEngineBtn,
             {
               backgroundColor: Theme.colors.surfaceVariant,
             },
@@ -77,7 +77,7 @@ const SettingScreen = ({ navigation, route }) => {
             color: Theme.colors.surfaceDisabled,
             fontSize: 16,
           }}>Theme Engine ...</Text>
-        </View>
+        </TouchableOpacity>
         <DonateButton />
       </View>
     </Animatable.View>
@@ -103,8 +103,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignContent: 'center',
-    // paddingBottom: 20,
-    margin: 0,
+    paddingBottom: 20,
+    marginBottom: 20,
   },
   texts: {
     display: 'flex',
@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
     paddingLeft: 4,
     fontSize: 15,
   },
-  comingSoonBox: {
+  ThemeEngineBtn: {
     flexDirection: 'column',
     justifyContent:'center',
     paddingHorizontal: 12,
@@ -123,6 +123,7 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     borderRadius: 20,
     overflow: 'hidden',
+    
   },
   comingSoon: {
     position: 'absolute',
