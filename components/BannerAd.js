@@ -9,7 +9,7 @@ export default function BannerAdComponent() {
     <View style={styles.adBox}>
       <BannerAd
           unitId={adUnitId}
-          size={BannerAdSize.BANNER}
+          size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}
           requestOptions={{
               requestNonPersonalizedAdsOnly: true,
           }}
