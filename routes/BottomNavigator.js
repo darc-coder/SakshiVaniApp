@@ -1,4 +1,5 @@
-import React, { useContext, useState, memo } from "react";
+import React, { useContext, useState, useEffect } from "react";
+import { BackHandler } from "react-native";
 import { CommonActions, NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { BottomNavigation, useTheme } from "react-native-paper";
@@ -8,15 +9,15 @@ import SongScreen from "../screens/SongScreen";
 import SettingScreen from "../screens/SettingScreen";
 
 import { HomeStackScreen } from "./HomeStackScreen";
-import { IndexContext } from "../context";
+import { IndexContext, RouteContext } from "../context";
 
 const Tab = createBottomTabNavigator();
 
-const renderScene = {
-    Home: memo(HomeStackScreen),
-    Song: memo(SongScreen),
-    Settings: memo(SettingScreen),
-};
+const renderScene = BottomNavigation.SceneMap({
+    Home: HomeStackScreen,
+    Song: SongScreen,
+    Settings: SettingScreen,
+});
 
 const tabBarIconGen = (
     focusedIcon = "",
@@ -35,8 +36,30 @@ const tabBarIconGen = (
 const BottomNavigationComponent = () => {
     const { index, setIndex } = useContext(IndexContext);
     const Theme = useTheme();
+    const [stack, setStack] = useState(new Set());
 
-    const [routes] = useState([
+    React.useEffect(() => {
+        const backAction = () => {
+            const arrStack = Array.from(stack);
+
+            if (index === 0 && arrStack.length === 0)
+                BackHandler.exitApp();
+            else if (arrStack.length !== 0 && arrStack.pop() !== undefined)
+                setIndex(arrStack.pop() || 0), setStack(new Set(arrStack));
+            else setIndex(0)
+
+            return true;
+        };
+
+        const backHandler = BackHandler.addEventListener(
+            'hardwareBackPress',
+            backAction,
+        );
+
+        return backHandler.remove;
+    }, [index, stack]);
+
+    const [routes, setRoutes] = useState([
         {
             key: "Home",
             name: "Home",
@@ -62,78 +85,19 @@ const BottomNavigationComponent = () => {
 
     return (
         <NavigationContainer>
-            <Tab.Navigator
-                initialRouteName="Home"
-                sceneContainerStyle={{ backgroundColor: Theme.colors.background }}
-                screenOptions={{
-                    headerShown: false,
-                    lazy: false,
+          <RouteContext.Provider value={{routes, setRoutes}}>
+            <BottomNavigation
+                navigationState={{ index, routes }}
+                onIndexChange={(_i) => {
+                    setIndex(_i);
+                    setStack(stack => stack.add(_i));
                 }}
-                tabBar={({ navigation, state, descriptors, insets }) => (
-                    <BottomNavigation.Bar
-                        navigationState={state}
-                        safeAreaInsets={{ ...insets, bottom: -5 }}
-                        onTabPress={({ route, preventDefault }) => {
-                            const index = routes.findIndex((r) => r.name === route.name);
-                            if (index !== 1) setIndex(index);
-
-                            const event = navigation.emit({
-                                type: "tabPress",
-                                target: route.key,
-                                canPreventDefault: true,
-                            });
-
-                            if (event.defaultPrevented) {
-                                preventDefault();
-                            } else {
-                                navigation.dispatch({
-                                    ...CommonActions.navigate(route.name, route.params),
-                                    target: state.key,
-                                });
-                            }
-                        }}
-                        renderIcon={({ route, focused, color }) => {
-                            const { options } = descriptors[route.key];
-                            if (options.tabBarIcon) {
-                                return options.tabBarIcon({ focused, color, size: 24 });
-                            }
-
-                            return null;
-                        }}
-                        getLabelText={({ route }) => {
-                            const { options } = descriptors[route.key];
-                            const label =
-                                options.tabBarLabel !== undefined
-                                    ? options.tabBarLabel
-                                    : options.title !== undefined
-                                        ? options.title
-                                        : route.name;
-
-                            return label;
-                        }}
-                        shifting={true}
-                    />
-                )}
-            >
-                {routes.map((route, index) => (
-                    <Tab.Screen
-                        key={route.key}
-                        name={route.name}
-                        component={renderScene[route.name]}
-                        options={{
-                            tabBarLabel: route.title,
-                            tabBarIcon: ({ focused, color, size }) =>
-                                tabBarIconGen(
-                                    route.focusedIcon,
-                                    route.unfocusedIcon,
-                                    focused,
-                                    color,
-                                    size
-                                ),
-                        }}
-                    />
-                ))}
-            </Tab.Navigator>
+                renderScene={renderScene}
+                shifting={true}
+                sceneAnimationEnabled={true}
+                sceneAnimationType={'shifting'}
+            />
+          </RouteContext.Provider>
         </NavigationContainer >
     );
 };

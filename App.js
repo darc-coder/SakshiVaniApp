@@ -13,8 +13,16 @@ import Theme from "./theme";
 import HomeStack from "./routes/HomeStack";
 import Context, { HintColorContext, ThemeContext } from "./context";
 import { useFonts } from "expo-font";
+import mobileAds from 'react-native-google-mobile-ads';
 
 const App = () => {
+
+  mobileAds()
+    .initialize()
+    .then(adapterStatuses => {
+      // Initialization complete!
+    });
+
   return (
     <SafeAreaProvider>
       <Context>

@@ -40,7 +40,7 @@ const SongScreen = ({ navigation, route, style }) => {
       setSongKey(old => key);
       setSongName(old => songName);
     }
-  }, [route]);
+  }, [route.params]);
 
   let [fontsLoaded] = useFonts({
     Walkman: require('../assets/WalkmanChanakya.ttf'),
@@ -55,9 +55,9 @@ const SongScreen = ({ navigation, route, style }) => {
   onLayoutRootView();
 
   React.useEffect(() => {
-    const unsubscribe = navigation.addListener('focus', () => {
-      animateRef.current && index < 1 && animateRef.current.slideInRight();
-      animateRef.current && index > 1 && animateRef.current.slideInLeft();
+    const unsubscribe = navigation?.addListener('focus', () => {
+    //   animateRef.current && index < 1 && animateRef.current.slideInRight();
+    //   animateRef.current && index > 1 && animateRef.current.slideInLeft();
     });
 
     return unsubscribe;
@@ -68,11 +68,11 @@ const SongScreen = ({ navigation, route, style }) => {
   } else {
     return (
       <SafeAreaView style={{ flex: 1 }}>
-        <Animatable.View
+        <View
           ref={animateRef}
           needsOffscreenAlphaCompositing={true}
           useNativeDriver={true}
-          style={[styles.container, { backgroundColor: '#222' }]}
+          style={[styles.container]}
           transition={'backgroundColor'}
           easing="ease-out-quint"
           duration={350}
@@ -101,7 +101,7 @@ const SongScreen = ({ navigation, route, style }) => {
               <Text style={{ color: 'white', fontSize: 30 }}>-</Text>
             </TouchableOpacity>
           </View>
-        </Animatable.View>
+        </View>
       </SafeAreaView>
     );
   }

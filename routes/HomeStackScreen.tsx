@@ -5,7 +5,6 @@ import {
 } from "@react-navigation/stack";
 
 import Home from "../screens/Home";
-import SongScreen from "../screens/SongScreen";
 import SongSearch from "../screens/SongSearch";
 import SongCategory from "../screens/SongCategory";
 import { HintColorContext } from "../context";
@@ -21,13 +20,11 @@ export function HomeStackScreen({ navigation }) {
   const [animate, setAnimate] = useState(false);
 
   React.useEffect(() => {
-    const unsubscribe = navigation.addListener("focus", () => {
-      // The screen is focused
-       animateRef.current && !animate && animateRef.current.fadeIn!();
-      animateRef.current && animate && animateRef.current.slideInLeft!();
+    const unsubscribe = navigation?.addListener("focus", () => {
+
+        animateRef.current && !animate && animateRef.current.fadeIn!();
     });
 
-    // Return the function to unsubscribe from the event so it gets removed on unmount
     return unsubscribe;
   }, [navigation, animate]);
 
@@ -82,7 +79,6 @@ export function HomeStackScreen({ navigation }) {
           options={{ title: "Search Song" }}
           component={SongSearch}
         />
-        <Stack.Screen name="Songs" component={SongScreen} />
         <Stack.Screen
           name="SongCategory"
           options={{ title: "Song Categories" }}

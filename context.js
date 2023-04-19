@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 
-export const IndexContext = React.createContext({ index: 0, setIndex: (v) => { } });
+export const IndexContext = React.createContext({ index: 0, setIndex: (v) => {} });
+export const RouteContext = React.createContext({ routes: [{}], setRoutes: ()=> [{}] })
 export const HintColorContext = React.createContext('');
 export const ThemeContext = React.createContext({ darkTheme: false, setDarkTheme: (v) => { } });
 

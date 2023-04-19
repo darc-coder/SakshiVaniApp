@@ -4,15 +4,30 @@ import { useFonts } from 'expo-font';
 import { useTheme, List } from 'react-native-paper';
 import { ListItem } from '@rneui/themed';
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import { IndexContext, RouteContext } from '../context';
 
 
 const SongItem = ({ navigation, item }) => {
 
     const Theme = useTheme();
+    const { index, setIndex } = React.useContext(IndexContext);
+    const { routes, setRoutes } = React.useContext(RouteContext);
+
 
     let [fontsLoaded] = useFonts({
         'Walkman': require('../assets/WalkmanChanakya.ttf'),
     });
+
+    const Navigate = () => {
+        if (routes.length < 2) navigation.navigate('Song', { song: item });
+        else {
+            const songRoute = routes.find(route => route.name === 'Song');
+            const songIndex = routes.findIndex(route => route.name === 'Song');
+            songRoute.params = {song: item};
+            setRoutes([...routes]);
+            setIndex(songIndex);
+        }
+    }
 
     const leftIcon = () => {
         return (
@@ -50,7 +65,7 @@ const SongItem = ({ navigation, item }) => {
             <List.Item
                 containerStyle={{ backgroundColor: Theme.colors.background, }}
                 style={{ borderBottomColor: Theme.colors.elevation.level5, borderBottomWidth: 0.6 }}
-                onPress={() => navigation.navigate('Song', { song: item })}
+                onPress={Navigate}
                 left={leftIcon}
                 title={titleNode}
             />

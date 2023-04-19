@@ -6,6 +6,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ThemeContext } from '../context';
 import SettingsTopImage from './SettingTopImage';
 import DonateButton from './SettingsDonate';
+import BannerAd from '../components/BannerAd';
 
 const SettingScreen = ({ navigation, route }) => {
   const animateRef = React.useRef(null);
@@ -14,8 +15,8 @@ const SettingScreen = ({ navigation, route }) => {
   const [name, setName] = useState('');
 
   useEffect(() => {
-    const unsubscribe = navigation.addListener('focus', () => {
-      animateRef.current && animateRef.current.fadeInRight();
+    const unsubscribe = navigation?.addListener('focus', () => {
+    //   animateRef.current && animateRef.current.fadeInRight();
     });
 
     return unsubscribe;
@@ -29,7 +30,7 @@ const SettingScreen = ({ navigation, route }) => {
   }, []);
 
   return (
-    <Animatable.View
+    <View
       ref={animateRef}
       style={{ flex: 1 }}
       animation="slideInRight"
@@ -79,8 +80,9 @@ const SettingScreen = ({ navigation, route }) => {
           }}>Theme Engine ...</Text>
         </TouchableOpacity>
         <DonateButton />
+        <BannerAd />
       </View>
-    </Animatable.View>
+    </View>
   );
 };
 
@@ -123,7 +125,7 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     borderRadius: 20,
     overflow: 'hidden',
-    
+
   },
   comingSoon: {
     position: 'absolute',
