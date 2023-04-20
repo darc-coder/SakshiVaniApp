@@ -110,7 +110,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignContent: 'center',
     paddingBottom: 20,
-    marginBottom: 20,
+    marginBottom: 10,
   },
   texts: {
     display: 'flex',
