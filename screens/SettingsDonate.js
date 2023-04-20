@@ -2,37 +2,47 @@ import React, { useState } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import { useTheme } from 'react-native-paper';
 import MCIcon from 'react-native-vector-icons/MaterialCommunityIcons';
-
+import { A } from '@expo/html-elements';
 
 const DonateButton = () => {
 
     const Theme = useTheme();
+    const [showPay, setShowPay] = useState(false);
+    const { scrim, inversePrimary, tertiary, onBackground } = Theme.colors;
 
     return (
+        <View style={{flexDirection: 'column'}}>
+
         <TouchableOpacity
             style={[
                 styles.DonateBtn,
                 {
-                    backgroundColor: Theme.colors.scrim,
+                    backgroundColor: scrim,
                 },
             ]}
+                onPress={() => setShowPay(old => !old)}
         >
             <View style={{ flexDirection: 'row', alignItems: 'center', position: 'relative' }}>
 
                 <MCIcon name='currency-inr' size={24} style={{ position: 'absolute' }}/>
-                <View style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center', width: '100%' }}>
+                <View style={styles.Centered}>
 
-                <Text style={[styles.DonateText, { color: Theme.colors.inversePrimary }]}>
+                <Text style={[styles.DonateText, { color: inversePrimary }]}>
                     Support Us
                 </Text>
                     <Text style={[styles.DonateRibbon, {
-                        backgroundColor: Theme.colors.tertiary, }]}>
+                        backgroundColor: tertiary, }]}>
                     Donate
                 </Text>
                 </View>
 
             </View>
         </TouchableOpacity>
+            { showPay ?
+                <Text style={{ textAlign: 'center', color: onBackground }}>Donate us:
+                    <A style={styles.anchor} href="upi://pay?pa=gelcjsg@ybl"> gelcjsg@ybl</A>
+                </Text> : null }
+        </View>
     )
 }
 
@@ -48,6 +58,12 @@ const styles = StyleSheet.create({
         marginBottom: 10,
         borderRadius: 20,
         overflow: 'hidden',
+    },
+    Centered: {
+        lexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: '100%'
     },
     DonateText: {
         fontWeight: "600",
@@ -68,6 +84,9 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         color: 'white',
     },
+    anchor: {
+        color: '#006adc'
+    }
 })
 
 export default DonateButton;
