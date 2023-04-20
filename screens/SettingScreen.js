@@ -41,7 +41,7 @@ const SettingScreen = ({ navigation, route }) => {
     >
       <SettingsTopImage />
       <View style={[styles.settings,
-              a > 780 ? { marginTop: 20 } : { marginTop: 0 }
+              windowHeight > 780 ? { marginTop: 20 } : { marginTop: 0 }
             ]}>
         <Text style={[styles.borderTop, { borderColor: Theme.colors.outlineVariant }]} />
         <View style={styles.textToggleWrap}>
