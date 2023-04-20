@@ -8,6 +8,8 @@ import SettingsTopImage from './SettingTopImage';
 import DonateButton from './SettingsDonate';
 import BannerAd from '../components/BannerAd';
 
+const windowHeight = Dimensions.get('window').height;
+
 const SettingScreen = ({ navigation, route }) => {
   const animateRef = React.useRef(null);
   const { darkTheme, setDarkTheme } = useContext(ThemeContext);
@@ -38,7 +40,9 @@ const SettingScreen = ({ navigation, route }) => {
       duration={350}
     >
       <SettingsTopImage />
-      <View style={styles.settings}>
+      <View style={[styles.settings,
+              windowHeight > 780 ? { marginTop: 20 } : { marginTop: 0 }
+            ]}>
         <Text style={[styles.borderTop, { borderColor: Theme.colors.outlineVariant }]} />
         <View style={styles.textToggleWrap}>
           <Text style={[styles.texts, { color: Theme.colors.onBackground }]}>
