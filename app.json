@@ -17,14 +17,18 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.nitzme.SakshiVaniApp"
+      "bundleIdentifier": "com.nitzme.SakshiVaniApp",
+      "runtimeVersion": {
+        "policy": "sdkVersion"
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.nitzme.SakshiVaniApp"
+      "package": "com.nitzme.SakshiVaniApp",
+      "runtimeVersion": "1.0.0"
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -33,9 +37,12 @@
       "eas": {
         "projectId": "8b6c352d-69c3-4f29-aff2-01399c8a0dea"
       }
+    },
+    "updates": {
+      "url": "https://u.expo.dev/8b6c352d-69c3-4f29-aff2-01399c8a0dea"
     }
   },
-   "react-native-google-mobile-ads": {
+  "react-native-google-mobile-ads": {
     "android_app_id": "ca-app-pub-6000544536655422~1584742855"
   }
 }
