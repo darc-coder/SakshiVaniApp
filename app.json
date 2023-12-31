@@ -3,7 +3,7 @@
     "name": "SakshiVani App",
     "slug": "SakshiVaniApp",
     "description": "SakshiVani App is Church Hymn Book in Hindi Language.",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -28,7 +28,7 @@
         "backgroundColor": "#ffffff"
       },
       "package": "com.nitzme.SakshiVaniApp",
-      "runtimeVersion": "1.0.0"
+      "runtimeVersion": "1.1.0"
     },
     "web": {
       "favicon": "./assets/favicon.png"
