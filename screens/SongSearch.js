@@ -51,7 +51,7 @@ export default SongSearch = ({ route, navigation }) => {
         let textArr = Array.from(unicodeHindiText);
         let isUniHindi = false;
         textArr.forEach(element => {
-            if (array_one.lastIndexOf(element)) {
+            if (array_one.includes(element)) {
                 isUniHindi = true;
             }
         });
